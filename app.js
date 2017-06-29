@@ -20,7 +20,7 @@ app.all('*', function (req, res, next) {
         next();
 });
 
-app.get('/:code.img', function (req, res) {
+app.get('/captcha/:code.img', function (req, res) {
     var p = new captchapng(80, 30, parseInt(req.params.code)); // width,height,numeric captcha
     p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
     p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
@@ -31,7 +31,7 @@ app.get('/:code.img', function (req, res) {
     res.end(imgbase64);
 });
 
-app.get('/:code', function (req, res) {
+app.get('/captcha/:code', function (req, res) {
     var p = new captchapng(80, 30, parseInt(req.params.code)); // width,height,numeric captcha
     p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
     p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
