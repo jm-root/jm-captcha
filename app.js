@@ -37,7 +37,7 @@ app.get('/:code', function (req, res) {
     p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
 
     var img = 'data:image/png;base64,' + p.getBase64();
-    res.json({img: img});
+    res.json({ret: img});
 });
 
 var port = 80;
