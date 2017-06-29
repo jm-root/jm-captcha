@@ -25,11 +25,15 @@ var prefix = '';
 process.env['port'] && (port = process.env['port']);
 process.env['prefix'] && (prefix = process.env['prefix']);
 
-app.get(prefix + '/:code.img', function (req, res) {
-    var p = new captchapng(80, 30, parseInt(req.params.code)); // width,height,numeric captcha
+var createImg = function(code) {
+    var p = new captchapng(80, 30, code); // width,height,numeric captcha
     p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
     p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+    return p;
+};
 
+app.get(prefix + '/:code.img', function (req, res) {
+    var p = createImg(req.params.code);
     var img = p.getBase64();
     var imgbase64 = new Buffer(img, 'base64');
     res.writeHead(200, {'Content-Type': 'image/png'});
@@ -37,10 +41,7 @@ app.get(prefix + '/:code.img', function (req, res) {
 });
 
 app.get(prefix + '/:code', function (req, res) {
-    var p = new captchapng(80, 30, parseInt(req.params.code)); // width,height,numeric captcha
-    p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-    p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
-
+    var p = createImg(req.params.code);
     var img = 'data:image/png;base64,' + p.getBase64();
     res.json({ret: img});
 });
